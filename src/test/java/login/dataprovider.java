@@ -14,14 +14,13 @@ import org.testng.annotations.DataProvider;
 public class dataprovider {
 	@DataProvider
 	public String[][] getdata()throws Exception {
-	File file = new File("C:\\Users\\aleena.j_simadvisory\\Documents\\SELENIUM AUTOMATION\\simple_webpage\\Resources\\test2.xls");
+	File file = new File("C:\\Users\\aleena.j_simadvisory\\Documents\\selenium\\test1.xls");
 	System.out.println(file.exists());
 	FileInputStream fis = new FileInputStream(file);
 	HSSFWorkbook workbook =new HSSFWorkbook(fis);
-	HSSFSheet sheet = workbook.getSheet("login");
+	HSSFSheet sheet = workbook.getSheetAt(0);
 	int rowcount = sheet.getPhysicalNumberOfRows();
 	int columnnumber =sheet.getRow(0).getLastCellNum();
-	System.out.println(rowcount +"\t"+ columnnumber);
 	String[][] data =new String[rowcount-1][columnnumber];
 	for(int i=0;i<rowcount-1;i++) {
 		for(int j =0;j<columnnumber;j++) {
