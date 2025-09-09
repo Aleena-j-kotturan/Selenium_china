@@ -1,32 +1,33 @@
-# OS cruft
-.DS_Store
-Thumbs.db
+WebElement dropdown = Wait.until(ExpectedConditions.elementToBeClickable(By.id("mat-select-value-3")));
+	dropdown.click();
+	WebElement option = Wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//mat-option/span[contains(text(),'003 List Pricing')]")));
+	option.click();
 
-# Eclipse project files 
-.project
-.classpath
-.settings/
+	// Optional small wait to let the form load after selection
+	Thread.sleep(2000);
 
-# Build outputs 
-target/
-test-output/
-bin/
-out/
-build/
+	// Locate input near label 'Future USD List Price'
+	WebElement usdPriceElement = Wait.until(ExpectedConditions.presenceOfElementLocated(
+	    By.xpath("//mat-form-field[.//label[contains(text(),'Future USD List Price')]]//input")));
 
-# Java byproducts
-*.class
-*.log
-hs_err_pid*
-replay_pid*
+	((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", usdPriceElement);
+	Wait.until(ExpectedConditions.visibilityOf(usdPriceElement));
 
-# Other IDEs
-.idea/
-*.iml
-.vscode/
+	String usdPriceText = usdPriceElement.getAttribute("value");
+	if (usdPriceText == null) usdPriceText = "";
+	usdPriceText = usdPriceText.trim();
 
-# Env / secrets 
-.env
-*.env
-*.key
-*.pem
+	System.out.println("USD List Price value: '" + usdPriceText + "'");
+	Assert.assertFalse(usdPriceText.isEmpty(), "Future USD List Price is null or empty");
+
+
+	WebElement lpEffectiveDateElement = Wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@id='mat-input-33']")));
+	((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lpEffectiveDateElement);
+	Wait.until(ExpectedConditions.visibilityOf(lpEffectiveDateElement));
+	String lpEffectiveDateText = lpEffectiveDateElement.getAttribute("value");
+	if (lpEffectiveDateText == null) lpEffectiveDateText = "";
+	lpEffectiveDateText = lpEffectiveDateText.trim();
+	System.out.println("LP Effective Date value: '" + lpEffectiveDateText + "'");
+	Assert.assertFalse(lpEffectiveDateText.isEmpty(), "Future Local Currency LP Effective Date is null or empty");
+  
+/target/
